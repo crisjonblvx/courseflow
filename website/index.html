@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CourseFlow — Canvas Course Setup, Done For You</title>
+    <meta name="description" content="Stop fighting with Canvas. Send us your syllabus, we'll build your course. Professional course setup for educators.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --accent: #dc2626;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #ffffff;
+            --bg-alt: #f9fafb;
+            --border: #e5e7eb;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--bg);
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Merriweather', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            margin-left: 32px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Hero */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+        
+        .hero h1 span {
+            color: var(--primary);
+        }
+        
+        .hero .subtitle {
+            font-size: 20px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .hero-image {
+            margin-top: 60px;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            display: block;
+        }
+        
+        /* Pain Points */
+        .pain {
+            padding: 80px 0;
+            background: var(--bg-alt);
+        }
+        
+        .pain h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        
+        .pain-card {
+            background: white;
+            padding: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .pain-card .icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+        
+        .pain-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        
+        .pain-card p {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+        
+        /* How It Works */
+        .how {
+            padding: 80px 0;
+        }
+        
+        .how h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .how .subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 48px;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .step {
+            text-align: center;
+        }
+        
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            margin: 0 auto 20px;
+        }
+        
+        .step h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        
+        .step p {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+        
+        /* Testimonial */
+        .testimonial {
+            padding: 80px 0;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .testimonial-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .testimonial blockquote {
+            font-size: 24px;
+            font-style: italic;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        
+        .testimonial cite {
+            font-style: normal;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* Pricing */
+        .pricing {
+            padding: 80px 0;
+            background: var(--bg-alt);
+        }
+        
+        .pricing h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .pricing .subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 48px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .pricing-card.featured {
+            border: 2px solid var(--primary);
+            position: relative;
+        }
+        
+        .pricing-card.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .pricing-card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .pricing-card .price {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 16px 0;
+        }
+        
+        .pricing-card .price span {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+        
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 24px 0;
+        }
+        
+        .pricing-card li {
+            padding: 8px 0;
+            font-size: 15px;
+            color: var(--text-light);
+        }
+        
+        .pricing-card li::before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        /* CTA */
+        .cta {
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+        
+        .cta p {
+            color: var(--text-light);
+            margin-bottom: 32px;
+            font-size: 18px;
+        }
+        
+        /* Contact Form */
+        .contact {
+            padding: 80px 0;
+            background: var(--bg-alt);
+        }
+        
+        .contact h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .contact .subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 48px;
+        }
+        
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        footer p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero .subtitle {
+                font-size: 18px;
+            }
+            
+            nav {
+                display: none;
+            }
+            
+            .pain h2,
+            .how h2,
+            .pricing h2,
+            .cta h2,
+            .contact h2 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="/" class="logo">Course<span>Flow</span></a>
+            <nav>
+                <a href="#how">How It Works</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact">Get Started</a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Stop Fighting With <span>Canvas</span></h1>
+            <p class="subtitle">Send us your syllabus. We'll build your entire course — modules, assignments, quizzes, and due dates — ready for your review.</p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn">Get Started Free</a>
+                <a href="#how" class="btn btn-outline">See How It Works</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pain">
+        <div class="container">
+            <h2>Canvas Is Powerful. But the Setup Is Painful.</h2>
+            <div class="pain-grid">
+                <div class="pain-card">
+                    <div class="icon">⏰</div>
+                    <h3>Hours of Clicking</h3>
+                    <p>Creating modules, assignments, quizzes one by one. Setting due dates. Configuring points. Repeat for every course, every semester.</p>
+                </div>
+                <div class="pain-card">
+                    <div class="icon">📋</div>
+                    <h3>Syllabus Chaos</h3>
+                    <p>Your syllabus is already done. But getting that information INTO Canvas means re-entering everything manually.</p>
+                </div>
+                <div class="pain-card">
+                    <div class="icon">🔄</div>
+                    <h3>Semester Reset</h3>
+                    <p>Copy course, fix dates, fix broken links, adjust for schedule changes. Every. Single. Semester.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="how" id="how">
+        <div class="container">
+            <h2>How CourseFlow Works</h2>
+            <p class="subtitle">From syllabus to complete course in 24 hours or less.</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Send Your Syllabus</h3>
+                    <p>Upload your syllabus PDF or share a link. That's all we need to get started.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>We Build Your Course</h3>
+                    <p>Our team creates your modules, assignments, quizzes, and pages with proper due dates and point values.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Review & Publish</h3>
+                    <p>Everything is created unpublished. You review, request changes, and publish when ready.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="testimonial">
+        <div class="container testimonial-inner">
+            <blockquote>"I sent my syllabus at 10pm. By morning, my entire course was built — 11 modules, 8 quizzes, all the assignments with correct due dates. What usually takes me a full weekend took CourseFlow less than an hour."</blockquote>
+            <cite>— Professor, Mass Communications Department, HBCU</cite>
+        </div>
+    </section>
+    
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2>Simple, Transparent Pricing</h2>
+            <p class="subtitle">No subscriptions. No hidden fees. Pay for what you need.</p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Course Setup</h3>
+                    <div class="price">$75 <span>per course</span></div>
+                    <ul>
+                        <li>Complete course structure from syllabus</li>
+                        <li>All modules and weekly content</li>
+                        <li>Assignments with due dates & points</li>
+                        <li>Quiz shells (you add questions)</li>
+                        <li>Overview pages for each week</li>
+                        <li>One round of revisions included</li>
+                    </ul>
+                    <a href="#contact" class="btn">Get Started</a>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>Full Service</h3>
+                    <div class="price">$150 <span>per course</span></div>
+                    <ul>
+                        <li>Everything in Course Setup</li>
+                        <li>Quiz questions written for you</li>
+                        <li>Assignment rubrics created</li>
+                        <li>Grading support all semester</li>
+                        <li>Unlimited revisions</li>
+                        <li>Priority turnaround (same day)</li>
+                    </ul>
+                    <a href="#contact" class="btn">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Save Hours Every Semester?</h2>
+            <p>Your first course setup is free. No credit card required.</p>
+            <a href="#contact" class="btn">Start Your Free Setup</a>
+        </div>
+    </section>
+    
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Get Started</h2>
+            <p class="subtitle">Tell us about your course and we'll be in touch within 24 hours.</p>
+            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="institution">Institution</label>
+                    <input type="text" id="institution" name="institution" required>
+                </div>
+                <div class="form-group">
+                    <label for="courses">How many courses do you need set up?</label>
+                    <select id="courses" name="courses">
+                        <option value="1">1 course</option>
+                        <option value="2-3">2-3 courses</option>
+                        <option value="4+">4 or more</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Tell us about your courses (optional)</label>
+                    <textarea id="message" name="message" placeholder="Course names, any specific needs, timeline, etc."></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Send Request</button>
+            </form>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CourseFlow. Built for educators, by educators.</p>
+        </div>
+    </footer>
+</body>
+</html>
