@@ -24,6 +24,7 @@
             --bg: #ffffff;
             --bg-alt: #f9fafb;
             --border: #e5e7eb;
+            --success: #059669;
         }
         
         body {
@@ -85,6 +86,8 @@
             font-weight: 600;
             font-size: 15px;
             transition: background 0.2s;
+            border: none;
+            cursor: pointer;
         }
         
         .btn:hover {
@@ -100,6 +103,14 @@
         .btn-outline:hover {
             background: var(--primary);
             color: white;
+        }
+        
+        .btn-beta {
+            background: var(--success);
+        }
+        
+        .btn-beta:hover {
+            background: #047857;
         }
         
         /* Hero */
@@ -134,17 +145,62 @@
             flex-wrap: wrap;
         }
         
-        .hero-image {
-            margin-top: 60px;
-            border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-            border: 1px solid var(--border);
-            overflow: hidden;
+        /* Beta Access Banner */
+        .beta-banner {
+            background: linear-gradient(135deg, var(--success) 0%, #047857 100%);
+            padding: 16px;
+            text-align: center;
+            color: white;
         }
         
-        .hero-image img {
-            width: 100%;
-            display: block;
+        .beta-banner p {
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        
+        .beta-form {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .beta-form input {
+            padding: 10px 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            width: 200px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .beta-form input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .beta-form input:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .beta-form button {
+            padding: 10px 20px;
+            background: white;
+            color: var(--success);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .beta-message {
+            margin-top: 8px;
+            font-size: 14px;
         }
         
         /* Pain Points */
@@ -240,11 +296,58 @@
             font-size: 15px;
         }
         
+        /* AI Features */
+        .ai-features {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+        }
+        
+        .ai-features h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .ai-features .subtitle {
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 48px;
+        }
+        
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        
+        .ai-card {
+            background: rgba(255,255,255,0.1);
+            padding: 28px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .ai-card .icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        
+        .ai-card h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+        
+        .ai-card p {
+            opacity: 0.85;
+            font-size: 14px;
+        }
+        
         /* Testimonial */
         .testimonial {
             padding: 80px 0;
-            background: var(--primary);
-            color: white;
+            background: var(--bg-alt);
         }
         
         .testimonial-inner {
@@ -258,18 +361,18 @@
             font-style: italic;
             margin-bottom: 24px;
             line-height: 1.5;
+            color: var(--text);
         }
         
         .testimonial cite {
             font-style: normal;
             font-size: 16px;
-            opacity: 0.9;
+            color: var(--text-light);
         }
         
         /* Pricing */
         .pricing {
             padding: 80px 0;
-            background: var(--bg-alt);
         }
         
         .pricing h2 {
@@ -360,6 +463,7 @@
         /* CTA */
         .cta {
             padding: 80px 0;
+            background: var(--bg-alt);
             text-align: center;
         }
         
@@ -378,7 +482,6 @@
         /* Contact Form */
         .contact {
             padding: 80px 0;
-            background: var(--bg-alt);
         }
         
         .contact h2 {
@@ -395,7 +498,7 @@
         }
         
         .contact-form {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
         }
         
@@ -433,6 +536,57 @@
             resize: vertical;
         }
         
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+        }
+        
+        .checkbox-item label {
+            font-weight: 400;
+            margin-bottom: 0;
+            font-size: 14px;
+            color: var(--text);
+        }
+        
+        .checkbox-item .hint {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+        
+        .form-section {
+            background: var(--bg-alt);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .form-section h4 {
+            font-size: 15px;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+        
         /* Footer */
         footer {
             padding: 40px 0;
@@ -463,18 +617,43 @@
             .how h2,
             .pricing h2,
             .cta h2,
-            .contact h2 {
+            .contact h2,
+            .ai-features h2 {
                 font-size: 26px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .beta-form {
+                flex-direction: column;
+            }
+            
+            .beta-form input {
+                width: 100%;
+                max-width: 280px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Beta Access Banner -->
+    <div class="beta-banner" id="beta-banner">
+        <p>🎓 <strong>Beta Tester?</strong> Enter your access code for free course setup:</p>
+        <div class="beta-form">
+            <input type="text" id="beta-code" placeholder="ENTER CODE" maxlength="12">
+            <button onclick="checkBetaCode()">Unlock Beta Access</button>
+        </div>
+        <p class="beta-message" id="beta-message"></p>
+    </div>
+
     <header>
         <div class="container header-inner">
             <a href="/" class="logo">Course<span>Flow</span></a>
             <nav>
                 <a href="#how">How It Works</a>
+                <a href="#ai">AI Features</a>
                 <a href="#pricing">Pricing</a>
                 <a href="#contact">Get Started</a>
             </nav>
@@ -484,7 +663,7 @@
     <section class="hero">
         <div class="container">
             <h1>Stop Fighting With <span>Canvas</span></h1>
-            <p class="subtitle">Send us your syllabus. We'll build your entire course — modules, assignments, quizzes, and due dates — ready for your review.</p>
+            <p class="subtitle">Send us your syllabus. We'll build your entire course — modules, assignments, quizzes with questions, study packs — ready for your review.</p>
             <div class="hero-cta">
                 <a href="#contact" class="btn">Get Started Free</a>
                 <a href="#how" class="btn btn-outline">See How It Works</a>
@@ -502,9 +681,9 @@
                     <p>Creating modules, assignments, quizzes one by one. Setting due dates. Configuring points. Repeat for every course, every semester.</p>
                 </div>
                 <div class="pain-card">
-                    <div class="icon">📋</div>
-                    <h3>Syllabus Chaos</h3>
-                    <p>Your syllabus is already done. But getting that information INTO Canvas means re-entering everything manually.</p>
+                    <div class="icon">📝</div>
+                    <h3>Writing Quiz Questions</h3>
+                    <p>Coming up with 10+ questions per quiz, formatting them correctly, entering each one individually. It never ends.</p>
                 </div>
                 <div class="pain-card">
                     <div class="icon">🔄</div>
@@ -523,12 +702,12 @@
                 <div class="step">
                     <div class="step-number">1</div>
                     <h3>Send Your Syllabus</h3>
-                    <p>Upload your syllabus PDF or share a link. That's all we need to get started.</p>
+                    <p>Upload your syllabus and tell us about your teaching style. That's all we need to get started.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <h3>We Build Your Course</h3>
-                    <p>Our team creates your modules, assignments, quizzes, and pages with proper due dates and point values.</p>
+                    <h3>AI Builds Your Course</h3>
+                    <p>Our AI creates modules, study packs, quiz questions, and assignments — all matching your style and subject.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
@@ -539,9 +718,38 @@
         </div>
     </section>
     
+    <section class="ai-features" id="ai">
+        <div class="container">
+            <h2>🤖 AI-Powered Content Generation</h2>
+            <p class="subtitle">Not just structure — actual content tailored to your subject and teaching style.</p>
+            <div class="ai-grid">
+                <div class="ai-card">
+                    <div class="icon">📚</div>
+                    <h3>Study Packs</h3>
+                    <p>AI generates weekly study guides with curated videos, articles, and key concepts — all freely accessible online.</p>
+                </div>
+                <div class="ai-card">
+                    <div class="icon">❓</div>
+                    <h3>Quiz Questions</h3>
+                    <p>10-15 questions per quiz, multiple choice, tied to your learning objectives. Pushed directly into Canvas.</p>
+                </div>
+                <div class="ai-card">
+                    <div class="icon">📋</div>
+                    <h3>Assignment Briefs</h3>
+                    <p>Detailed assignment descriptions, requirements, rubrics, and suggested resources.</p>
+                </div>
+                <div class="ai-card">
+                    <div class="icon">🎯</div>
+                    <h3>Your Teaching Style</h3>
+                    <p>AI learns from your existing materials to match your voice, approach, and pedagogical preferences.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <section class="testimonial">
         <div class="container testimonial-inner">
-            <blockquote>"I sent my syllabus at 10pm. By morning, my entire course was built — 11 modules, 8 quizzes, all the assignments with correct due dates. What usually takes me a full weekend took CourseFlow less than an hour."</blockquote>
+            <blockquote>"I sent my syllabus at 10pm. By morning, my entire course was built — modules, study packs, quizzes with actual questions. What usually takes me a full weekend took CourseFlow less than an hour."</blockquote>
             <cite>— Professor, Mass Communications Department, HBCU</cite>
         </div>
     </section>
@@ -565,13 +773,13 @@
                     <a href="#contact" class="btn">Get Started</a>
                 </div>
                 <div class="pricing-card featured">
-                    <h3>Full Service</h3>
+                    <h3>Full Service + AI</h3>
                     <div class="price">$150 <span>per course</span></div>
                     <ul>
                         <li>Everything in Course Setup</li>
-                        <li>Quiz questions written for you</li>
-                        <li>Assignment rubrics created</li>
-                        <li>Grading support all semester</li>
+                        <li>🤖 AI-generated quiz questions</li>
+                        <li>🤖 AI-generated study packs</li>
+                        <li>🤖 AI-generated assignment briefs</li>
                         <li>Unlimited revisions</li>
                         <li>Priority turnaround (same day)</li>
                     </ul>
@@ -594,31 +802,98 @@
             <h2>Get Started</h2>
             <p class="subtitle">Tell us about your course and we'll be in touch within 24 hours.</p>
             <form class="contact-form" action="https://formspree.io/f/mykdzkld" method="POST">
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" name="name" required>
+                <input type="hidden" name="_subject" value="New CourseFlow Request">
+                <input type="hidden" id="beta-status" name="beta_access" value="">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="institution">Institution *</label>
+                        <input type="text" id="institution" name="institution" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <input type="text" id="department" name="department" placeholder="e.g., Mass Communications">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="institution">Institution</label>
-                    <input type="text" id="institution" name="institution" required>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="course_name">Course Name *</label>
+                        <input type="text" id="course_name" name="course_name" placeholder="e.g., Media Ethics" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="course_code">Course Code</label>
+                        <input type="text" id="course_code" name="course_code" placeholder="e.g., MCM 307">
+                    </div>
                 </div>
+                
                 <div class="form-group">
-                    <label for="courses">How many courses do you need set up?</label>
-                    <select id="courses" name="courses">
-                        <option value="1">1 course</option>
-                        <option value="2-3">2-3 courses</option>
-                        <option value="4+">4 or more</option>
-                    </select>
+                    <label for="subject_area">Subject Area / Topic *</label>
+                    <input type="text" id="subject_area" name="subject_area" placeholder="e.g., Media ethics, privacy, deepfakes, AI in journalism" required>
                 </div>
+                
+                <div class="form-section">
+                    <h4>🤖 AI Content Generation (Optional)</h4>
+                    <p style="font-size: 13px; color: var(--text-light); margin-bottom: 16px;">Select what you'd like AI to create for your course:</p>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ai_quizzes" name="ai_quizzes" value="yes">
+                            <div>
+                                <label for="ai_quizzes">Quiz Questions</label>
+                                <p class="hint">10-15 multiple choice questions per quiz, tied to weekly topics</p>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ai_study_packs" name="ai_study_packs" value="yes">
+                            <div>
+                                <label for="ai_study_packs">Study Packs</label>
+                                <p class="hint">Weekly guides with curated videos, articles, and key concepts</p>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ai_assignments" name="ai_assignments" value="yes">
+                            <div>
+                                <label for="ai_assignments">Assignment Briefs</label>
+                                <p class="hint">Detailed descriptions, requirements, and rubrics</p>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ai_lectures" name="ai_lectures" value="yes">
+                            <div>
+                                <label for="ai_lectures">Lecture Outlines</label>
+                                <p class="hint">Talking points, discussion questions, slide suggestions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="form-group">
-                    <label for="message">Tell us about your courses (optional)</label>
-                    <textarea id="message" name="message" placeholder="Course names, any specific needs, timeline, etc."></textarea>
+                    <label for="teaching_style">Describe Your Teaching Style</label>
+                    <textarea id="teaching_style" name="teaching_style" placeholder="How do you approach your subject? What's important to you pedagogically? Any specific frameworks or perspectives you emphasize? (e.g., 'I use a lot of case studies from current events' or 'I focus on ethical dilemmas with no easy answers')"></textarea>
                 </div>
-                <button type="submit" class="btn" style="width: 100%;">Send Request</button>
+                
+                <div class="form-group">
+                    <label for="resources">Preferred Resource Types</label>
+                    <textarea id="resources" name="resources" placeholder="What kinds of resources do you typically use? (e.g., 'YouTube videos, no textbook — everything must be free/online' or 'Academic articles and case studies')"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Additional Notes</label>
+                    <textarea id="message" name="message" placeholder="Anything else we should know? Timeline, specific needs, existing materials you'd like us to learn from?"></textarea>
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%;">Submit Request</button>
             </form>
         </div>
     </section>
@@ -628,5 +903,55 @@
             <p>&copy; 2026 CourseFlow. Built for educators, by educators.</p>
         </div>
     </footer>
+    
+    <script>
+        // Beta access codes (can add more as needed)
+        const BETA_CODES = ['HBCUPILOT', 'VUUFACULTY', 'PROFTEST', 'EARLYBIRD'];
+        
+        function checkBetaCode() {
+            const input = document.getElementById('beta-code');
+            const message = document.getElementById('beta-message');
+            const banner = document.getElementById('beta-banner');
+            const betaStatus = document.getElementById('beta-status');
+            const code = input.value.toUpperCase().trim();
+            
+            if (BETA_CODES.includes(code)) {
+                message.textContent = '✅ Beta access unlocked! Your course setup is free.';
+                message.style.color = '#bbf7d0';
+                banner.style.background = 'linear-gradient(135deg, #047857 0%, #065f46 100%)';
+                betaStatus.value = 'BETA: ' + code;
+                
+                // Store in localStorage
+                localStorage.setItem('courseflow_beta', code);
+                
+                // Scroll to form
+                setTimeout(() => {
+                    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                }, 1000);
+            } else if (code.length > 0) {
+                message.textContent = '❌ Invalid code. Please check and try again.';
+                message.style.color = '#fca5a5';
+            }
+        }
+        
+        // Check for stored beta code on load
+        window.addEventListener('load', () => {
+            const stored = localStorage.getItem('courseflow_beta');
+            if (stored && BETA_CODES.includes(stored)) {
+                document.getElementById('beta-code').value = stored;
+                document.getElementById('beta-message').textContent = '✅ Beta access active: ' + stored;
+                document.getElementById('beta-message').style.color = '#bbf7d0';
+                document.getElementById('beta-status').value = 'BETA: ' + stored;
+            }
+        });
+        
+        // Allow enter key to submit beta code
+        document.getElementById('beta-code').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                checkBetaCode();
+            }
+        });
+    </script>
 </body>
 </html>
