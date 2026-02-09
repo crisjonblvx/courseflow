@@ -1,6 +1,7 @@
 """
 CourseFlow Canvas Builder
 Creates course structure in Canvas from parsed syllabus data
+Smart merge: skips items that already exist (by name)
 """
 
 import os
@@ -18,10 +19,10 @@ HEADERS = {
     "Content-Type": "application/json"
 }
 
-def api_get(endpoint):
+def api_get(endpoint, params=None):
     """GET request to Canvas API"""
     url = f"{CANVAS_BASE_URL}/api/v1{endpoint}"
-    response = requests.get(url, headers=HEADERS)
+    response = requests.get(url, headers=HEADERS, params=params or {})
     response.raise_for_status()
     return response.json()
 
@@ -40,27 +41,63 @@ def api_put(endpoint, data):
     return response.json()
 
 
-class CourseBuilder:
-    """Builds Canvas course structure from syllabus data"""
+class SmartCourseBuilder:
+    """Builds Canvas course structure with smart merge (skip existing)"""
     
     def __init__(self, course_id, course_data, dry_run=True):
         self.course_id = course_id
         self.data = course_data
         self.dry_run = dry_run
-        self.created_modules = {}
-        self.created_assignments = {}
         self.log = []
+        
+        # Cache of existing items (populated on build)
+        self.existing_modules = {}
+        self.existing_assignments = {}
+        self.existing_quizzes = {}
+        self.existing_pages = {}
     
     def _log(self, action, item, details=""):
         """Log an action"""
-        entry = f"{'[DRY RUN] ' if self.dry_run else ''}✓ {action}: {item}"
+        prefix = "[DRY RUN] " if self.dry_run else ""
+        entry = f"{prefix}{action}: {item}"
         if details:
             entry += f" ({details})"
         self.log.append(entry)
         print(entry)
     
+    def fetch_existing(self):
+        """Fetch all existing items in the course"""
+        print("📋 Fetching existing course content...")
+        
+        # Fetch modules
+        modules = api_get(f"/courses/{self.course_id}/modules", {"per_page": 100})
+        self.existing_modules = {m["name"].lower().strip(): m for m in modules}
+        print(f"   Found {len(self.existing_modules)} existing modules")
+        
+        # Fetch assignments
+        assignments = api_get(f"/courses/{self.course_id}/assignments", {"per_page": 100})
+        self.existing_assignments = {a["name"].lower().strip(): a for a in assignments}
+        print(f"   Found {len(self.existing_assignments)} existing assignments")
+        
+        # Fetch quizzes
+        quizzes = api_get(f"/courses/{self.course_id}/quizzes", {"per_page": 100})
+        self.existing_quizzes = {q["title"].lower().strip(): q for q in quizzes}
+        print(f"   Found {len(self.existing_quizzes)} existing quizzes")
+        
+        # Fetch pages
+        pages = api_get(f"/courses/{self.course_id}/pages", {"per_page": 100})
+        self.existing_pages = {p["title"].lower().strip(): p for p in pages}
+        print(f"   Found {len(self.existing_pages)} existing pages")
+        print()
+    
     def create_module(self, name, position, unlock_at=None):
-        """Create a module in Canvas"""
+        """Create a module if it doesn't exist"""
+        name_key = name.lower().strip()
+        
+        if name_key in self.existing_modules:
+            self._log("⏭️  SKIP MODULE", name, "already exists")
+            return self.existing_modules[name_key]
+        
         module_data = {
             "module": {
                 "name": name,
@@ -70,15 +107,22 @@ class CourseBuilder:
         }
         
         if self.dry_run:
-            self._log("CREATE MODULE", name, f"position {position}")
+            self._log("✅ CREATE MODULE", name, f"position {position}")
             return {"id": f"dry_run_module_{position}", "name": name}
         
         result = api_post(f"/courses/{self.course_id}/modules", module_data)
-        self._log("CREATE MODULE", name, f"id={result['id']}")
+        self._log("✅ CREATE MODULE", name, f"id={result['id']}")
+        self.existing_modules[name_key] = result
         return result
     
-    def create_assignment(self, name, points, due_at, description, submission_types=None, assignment_group_id=None):
-        """Create an assignment in Canvas"""
+    def create_assignment(self, name, points, due_at, description, submission_types=None):
+        """Create an assignment if it doesn't exist"""
+        name_key = name.lower().strip()
+        
+        if name_key in self.existing_assignments:
+            self._log("⏭️  SKIP ASSIGNMENT", name, "already exists")
+            return self.existing_assignments[name_key]
+        
         assignment_data = {
             "assignment": {
                 "name": name,
@@ -86,23 +130,27 @@ class CourseBuilder:
                 "due_at": due_at,
                 "description": description,
                 "submission_types": submission_types or ["online_upload"],
-                "published": False  # Don't publish yet
+                "published": False
             }
         }
         
-        if assignment_group_id:
-            assignment_data["assignment"]["assignment_group_id"] = assignment_group_id
-        
         if self.dry_run:
-            self._log("CREATE ASSIGNMENT", name, f"{points} pts, due {due_at[:10] if due_at else 'N/A'}")
+            self._log("✅ CREATE ASSIGNMENT", name, f"{points} pts, due {due_at[:10] if due_at else 'N/A'}")
             return {"id": f"dry_run_assignment_{name}", "name": name}
         
         result = api_post(f"/courses/{self.course_id}/assignments", assignment_data)
-        self._log("CREATE ASSIGNMENT", name, f"id={result['id']}")
+        self._log("✅ CREATE ASSIGNMENT", name, f"id={result['id']}")
+        self.existing_assignments[name_key] = result
         return result
     
     def create_quiz(self, name, points, due_at, description):
-        """Create a quiz in Canvas"""
+        """Create a quiz if it doesn't exist"""
+        name_key = name.lower().strip()
+        
+        if name_key in self.existing_quizzes:
+            self._log("⏭️  SKIP QUIZ", name, "already exists")
+            return self.existing_quizzes[name_key]
+        
         quiz_data = {
             "quiz": {
                 "title": name,
@@ -110,22 +158,29 @@ class CourseBuilder:
                 "points_possible": points,
                 "due_at": due_at,
                 "description": description,
-                "time_limit": 30,  # 30 minutes
+                "time_limit": 30,
                 "allowed_attempts": 2,
                 "published": False
             }
         }
         
         if self.dry_run:
-            self._log("CREATE QUIZ", name, f"{points} pts, due {due_at[:10] if due_at else 'N/A'}")
+            self._log("✅ CREATE QUIZ", name, f"{points} pts, due {due_at[:10] if due_at else 'N/A'}")
             return {"id": f"dry_run_quiz_{name}", "name": name}
         
         result = api_post(f"/courses/{self.course_id}/quizzes", quiz_data)
-        self._log("CREATE QUIZ", name, f"id={result['id']}")
+        self._log("✅ CREATE QUIZ", name, f"id={result['id']}")
+        self.existing_quizzes[name_key] = result
         return result
     
     def create_page(self, title, body):
-        """Create a page in Canvas"""
+        """Create a page if it doesn't exist"""
+        title_key = title.lower().strip()
+        
+        if title_key in self.existing_pages:
+            self._log("⏭️  SKIP PAGE", title, "already exists")
+            return self.existing_pages[title_key]
+        
         page_data = {
             "wiki_page": {
                 "title": title,
@@ -135,41 +190,18 @@ class CourseBuilder:
         }
         
         if self.dry_run:
-            self._log("CREATE PAGE", title)
+            self._log("✅ CREATE PAGE", title)
             return {"url": title.lower().replace(" ", "-"), "title": title}
         
         result = api_post(f"/courses/{self.course_id}/pages", page_data)
-        self._log("CREATE PAGE", title, f"url={result['url']}")
-        return result
-    
-    def add_item_to_module(self, module_id, item_type, content_id, title=None, indent=0):
-        """Add an item to a module"""
-        item_data = {
-            "module_item": {
-                "type": item_type,
-                "content_id": content_id,
-                "indent": indent
-            }
-        }
-        if title:
-            item_data["module_item"]["title"] = title
-        
-        if self.dry_run:
-            self._log("ADD TO MODULE", f"{item_type}: {title or content_id}", f"module {module_id}")
-            return {"id": f"dry_run_item_{content_id}"}
-        
-        result = api_post(f"/courses/{self.course_id}/modules/{module_id}/items", item_data)
+        self._log("✅ CREATE PAGE", title, f"url={result['url']}")
+        self.existing_pages[title_key] = result
         return result
     
     def build_course_overview_page(self):
         """Create the course overview page"""
         info = self.data["course_info"]
         grading = self.data["grading"]
-        
-        grading_table = "\n".join([
-            f"| {name} | {details['weight']}% | {details['description']} |"
-            for name, details in grading.items()
-        ])
         
         html = f"""
 <h2>📚 {info['code']}: {info['title']}</h2>
@@ -197,12 +229,12 @@ class CourseBuilder:
 <hr>
 
 <h3>Grading Breakdown</h3>
-<table>
-    <thead>
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+    <thead style="background-color: #f0f0f0;">
         <tr><th>Component</th><th>Weight</th><th>Description</th></tr>
     </thead>
     <tbody>
-        {"".join(f"<tr><td>{name}</td><td>{details['weight']}%</td><td>{details['description']}</td></tr>" for name, details in grading.items())}
+        {"".join(f'<tr><td>{name}</td><td>{details["weight"]}%</td><td>{details["description"]}</td></tr>' for name, details in grading.items())}
     </tbody>
 </table>
 
@@ -224,6 +256,14 @@ class CourseBuilder:
         
         topics_list = "\n".join(f"<li>{topic}</li>" for topic in module.get("topics", []))
         
+        quiz_note = ""
+        if module.get('quiz_due'):
+            quiz_note = f"<li><strong>📝 Complete Quiz by {module['quiz_due']}</strong></li>"
+        
+        assignment_note = ""
+        if module.get('assignment_due'):
+            assignment_note = f"<li><strong>📎 {module.get('assignment_name', 'Assignment')} due {module['assignment_due']}</strong></li>"
+        
         html = f"""
 <h2>Week {module['week']}: {module['title']}</h2>
 <h3><em>{module['subtitle']}</em></h3>
@@ -244,50 +284,51 @@ class CourseBuilder:
 <ul>
     <li>Watch/read assigned materials</li>
     <li>Participate in War Room discussion</li>
-    {"<li><strong>Complete Quiz by " + module.get('quiz_due', '') + "</strong></li>" if module.get('quiz_due') else ""}
-    {"<li><strong>" + module.get('assignment_name', '') + " due " + module.get('assignment_due', '') + "</strong></li>" if module.get('assignment_due') else ""}
+    {quiz_note}
+    {assignment_note}
 </ul>
 """
         return self.create_page(f"Week {module['week']}: {module['title']} - Overview", html)
     
     def build_all(self):
-        """Build the complete course structure"""
+        """Build the complete course structure with smart merge"""
         print("=" * 60)
-        print(f"COURSEFLOW: Building {self.data['course_info']['code']}")
+        print(f"COURSEFLOW SMART MERGE: {self.data['course_info']['code']}")
         print(f"Mode: {'DRY RUN (preview only)' if self.dry_run else 'LIVE (creating in Canvas)'}")
         print("=" * 60)
         print()
         
-        # 1. Create course overview page
-        print("--- COURSE OVERVIEW ---")
-        self.build_course_overview_page()
-        print()
+        # Fetch existing content first
+        self.fetch_existing()
         
-        # 2. Create modules and their content
-        print("--- MODULES ---")
-        position = 1
+        # Track stats
+        created = 0
+        skipped = 0
+        
+        # 1. Create course overview page
+        print("--- PAGES ---")
+        self.build_course_overview_page()
+        
+        # 2. Create modules and their overview pages
+        print("\n--- MODULES ---")
+        position = max([m.get("position", 0) for m in self.existing_modules.values()] or [0]) + 1
         
         for module in self.data["modules"]:
             if module.get("week") == "break":
-                # Create a simple "Spring Break" module
-                self.create_module(f"🌴 {module['title']} ({module['dates']['start']} - {module['dates']['end']})", position)
-                position += 1
-                continue
+                module_name = f"🌴 {module['title']} ({module['dates']['start']} - {module['dates']['end']})"
+            else:
+                module_name = f"Week {module['week']}: {module['title']}"
             
-            # Create the module
-            module_name = f"Week {module['week']}: {module['title']}"
-            created_module = self.create_module(module_name, position, unlock_at=module['dates']['start'] + "T00:00:00Z")
-            self.created_modules[module['week']] = created_module
+            result = self.create_module(module_name, position)
             
-            # Create module overview page
-            self.build_module_overview_page(module)
+            # Create overview page for non-break modules
+            if module.get("week") != "break":
+                self.build_module_overview_page(module)
             
             position += 1
         
-        print()
-        
-        # 3. Create assignments
-        print("--- ASSIGNMENTS ---")
+        # 3. Create assignments and quizzes
+        print("\n--- ASSIGNMENTS & QUIZZES ---")
         for assignment in self.data["assignments"]:
             if assignment["type"] == "quiz":
                 self.create_quiz(
@@ -305,23 +346,37 @@ class CourseBuilder:
                     submission_types=assignment.get("submission_types")
                 )
         
+        # Count results
+        for entry in self.log:
+            if "✅ CREATE" in entry:
+                created += 1
+            elif "⏭️  SKIP" in entry:
+                skipped += 1
+        
         print()
         print("=" * 60)
-        print(f"BUILD COMPLETE: {len(self.log)} actions")
+        print(f"SMART MERGE COMPLETE")
+        print(f"  ✅ Created: {created}")
+        print(f"  ⏭️  Skipped: {skipped} (already existed)")
+        print(f"  📊 Total actions: {len(self.log)}")
         print("=" * 60)
         
-        return self.log
+        return {
+            "created": created,
+            "skipped": skipped,
+            "log": self.log
+        }
 
 
 def preview_build(course_id):
     """Preview what would be created (dry run)"""
-    builder = CourseBuilder(course_id, COURSE_DATA, dry_run=True)
+    builder = SmartCourseBuilder(course_id, COURSE_DATA, dry_run=True)
     return builder.build_all()
 
 
 def execute_build(course_id):
     """Actually create the course structure in Canvas"""
-    builder = CourseBuilder(course_id, COURSE_DATA, dry_run=False)
+    builder = SmartCourseBuilder(course_id, COURSE_DATA, dry_run=False)
     return builder.build_all()
 
 
@@ -342,6 +397,8 @@ if __name__ == "__main__":
     
     if len(sys.argv) > 1 and sys.argv[1] == "--execute":
         print("⚠️  EXECUTING LIVE BUILD - This will create content in Canvas!")
+        print("   (Only NEW items will be created - existing items will be skipped)")
+        print()
         confirm = input("Type 'yes' to confirm: ")
         if confirm.lower() == "yes":
             execute_build(COURSE_ID)

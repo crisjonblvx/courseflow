@@ -1,10 +1,12 @@
 """
 CourseFlow Syllabus Parser
 Extracts course structure from parsed syllabus text
-"""
 
-# MCM 307 Media Ethics - Parsed Structure
-# Based on syllabus extracted 2025-06-03
+MCM 307 Media Ethics - ADJUSTED DATES
+- Quiz 3 starts Feb 15
+- Spring Break: Mar 9-15
+- All work due: April 17
+"""
 
 COURSE_DATA = {
     "course_info": {
@@ -13,7 +15,7 @@ COURSE_DATA = {
         "credits": 3,
         "term": "Spring 2026",
         "start_date": "2026-01-12",
-        "end_date": "2026-05-02",
+        "end_date": "2026-04-17",
         "schedule": "Tuesday & Thursday 1:00-2:25 PM",
         "location": "Ellison Building Room 216",
         "instructor": "Professor Christopher 'CJ' Nurse",
@@ -34,39 +36,14 @@ COURSE_DATA = {
     },
     
     "modules": [
-        {
-            "week": 1,
-            "title": "Can vs. Should",
-            "subtitle": "Just because it's legal doesn't mean it's right",
-            "unit": "The Basics (Right vs. Wrong)",
-            "dates": {"start": "2026-01-12", "end": "2026-01-18"},
-            "quiz_due": "2026-01-18",
-            "topics": [
-                "Legal vs. ethical distinctions",
-                "Real-world examples of 'legal but wrong'",
-                "Introduction to ethical frameworks"
-            ]
-        },
-        {
-            "week": 2,
-            "title": "The Clout Trap",
-            "subtitle": "Lying for views",
-            "unit": "The Basics (Right vs. Wrong)",
-            "dates": {"start": "2026-01-19", "end": "2026-01-25"},
-            "quiz_due": "2026-01-25",
-            "topics": [
-                "Clickbait culture",
-                "Fake pranks and staged content",
-                "The cost of credibility"
-            ]
-        },
+        # Weeks 1-2 already completed (Quiz 1 & 2 graded)
         {
             "week": 3,
             "title": "Privacy",
             "subtitle": "Is it okay to film people in public?",
             "unit": "The Basics (Right vs. Wrong)",
-            "dates": {"start": "2026-01-26", "end": "2026-02-01"},
-            "quiz_due": "2026-02-01",
+            "dates": {"start": "2026-02-09", "end": "2026-02-15"},
+            "quiz_due": "2026-02-15",
             "topics": [
                 "TikTok gym pranks controversy",
                 "Consent and public spaces",
@@ -78,8 +55,8 @@ COURSE_DATA = {
             "title": "The Paparazzi",
             "subtitle": "Case Study",
             "unit": "The Basics (Right vs. Wrong)",
-            "dates": {"start": "2026-02-02", "end": "2026-02-08"},
-            "quiz_due": "2026-02-08",
+            "dates": {"start": "2026-02-16", "end": "2026-02-22"},
+            "quiz_due": "2026-02-22",
             "topics": [
                 "History of paparazzi culture",
                 "Princess Diana case study",
@@ -91,8 +68,8 @@ COURSE_DATA = {
             "title": "Ads and Sponsorships",
             "subtitle": "The FTC Rules",
             "unit": "The Influencer World",
-            "dates": {"start": "2026-02-09", "end": "2026-02-15"},
-            "quiz_due": "2026-02-15",
+            "dates": {"start": "2026-02-23", "end": "2026-03-01"},
+            "quiz_due": "2026-03-01",
             "topics": [
                 "FTC disclosure requirements",
                 "#ad vs. #sponsored",
@@ -104,8 +81,8 @@ COURSE_DATA = {
             "title": "Payola",
             "subtitle": "Taking money under the table",
             "unit": "The Influencer World",
-            "dates": {"start": "2026-02-16", "end": "2026-02-22"},
-            "quiz_due": "2026-02-22",
+            "dates": {"start": "2026-03-02", "end": "2026-03-08"},
+            "quiz_due": "2026-03-08",
             "topics": [
                 "History of payola in radio",
                 "Modern pay-for-play schemes",
@@ -113,12 +90,18 @@ COURSE_DATA = {
             ]
         },
         {
+            "week": "break",
+            "title": "Spring Break",
+            "subtitle": "No Class",
+            "dates": {"start": "2026-03-09", "end": "2026-03-15"}
+        },
+        {
             "week": 7,
             "title": "Cancel Culture",
             "subtitle": "When does the mob go too far?",
             "unit": "The Influencer World",
-            "dates": {"start": "2026-02-23", "end": "2026-03-01"},
-            "quiz_due": "2026-03-01",
+            "dates": {"start": "2026-03-16", "end": "2026-03-22"},
+            "quiz_due": "2026-03-22",
             "topics": [
                 "Accountability vs. destruction",
                 "Case studies of cancellations",
@@ -130,8 +113,8 @@ COURSE_DATA = {
             "title": "Midterm Week",
             "subtitle": "The Reaction Video Due",
             "unit": "The Influencer World",
-            "dates": {"start": "2026-03-02", "end": "2026-03-08"},
-            "assignment_due": "2026-03-08",
+            "dates": {"start": "2026-03-23", "end": "2026-03-29"},
+            "assignment_due": "2026-03-29",
             "assignment_name": "The Reaction Video",
             "topics": [
                 "Midterm presentations",
@@ -140,18 +123,12 @@ COURSE_DATA = {
             ]
         },
         {
-            "week": "break",
-            "title": "Spring Break",
-            "subtitle": "No Class",
-            "dates": {"start": "2026-03-09", "end": "2026-03-15"}
-        },
-        {
             "week": 9,
             "title": "Deepfakes",
             "subtitle": "Is that video real?",
             "unit": "The Future (AI & Tech)",
-            "dates": {"start": "2026-03-16", "end": "2026-03-22"},
-            "quiz_due": "2026-03-22",
+            "dates": {"start": "2026-03-30", "end": "2026-04-05"},
+            "quiz_due": "2026-04-05",
             "topics": [
                 "How deepfakes work",
                 "Political and personal misuse",
@@ -160,139 +137,81 @@ COURSE_DATA = {
         },
         {
             "week": 10,
-            "title": "AI Art",
-            "subtitle": "Is it stealing?",
+            "title": "AI Art & The Algorithm",
+            "subtitle": "Is it stealing? Why does your feed show you violence?",
             "unit": "The Future (AI & Tech)",
-            "dates": {"start": "2026-03-23", "end": "2026-03-29"},
-            "quiz_due": "2026-03-29",
+            "dates": {"start": "2026-04-06", "end": "2026-04-12"},
+            "quiz_due": "2026-04-12",
             "topics": [
                 "How AI art generators work",
                 "Artist rights and training data",
-                "The future of creative work"
-            ]
-        },
-        {
-            "week": 11,
-            "title": "The Algorithm",
-            "subtitle": "Why does your feed show you violence?",
-            "unit": "The Future (AI & Tech)",
-            "dates": {"start": "2026-03-30", "end": "2026-04-05"},
-            "quiz_due": "2026-04-05",
-            "topics": [
                 "How recommendation algorithms work",
                 "Filter bubbles and radicalization",
                 "Platform responsibility"
             ]
         },
         {
-            "week": 12,
-            "title": "Fake News",
-            "subtitle": "How to spot a lie",
-            "unit": "The Future (AI & Tech)",
-            "dates": {"start": "2026-04-06", "end": "2026-04-12"},
-            "quiz_due": "2026-04-12",
+            "week": 11,
+            "title": "Fake News & Wrap Up",
+            "subtitle": "How to spot a lie + Final Prep",
+            "unit": "The Wrap Up",
+            "dates": {"start": "2026-04-13", "end": "2026-04-17"},
+            "assignment_due": "2026-04-17",
+            "assignment_name": "The Code Graphic",
             "topics": [
                 "Misinformation vs. disinformation",
                 "Fact-checking techniques",
-                "Media literacy skills"
-            ]
-        },
-        {
-            "week": 13,
-            "title": "Diversity",
-            "subtitle": "Representation in movies/TV",
-            "unit": "The Wrap Up",
-            "dates": {"start": "2026-04-13", "end": "2026-04-19"},
-            "quiz_due": "2026-04-17",  # All work due April 17
-            "topics": [
-                "Representation matters",
-                "Tokenism vs. authentic inclusion",
-                "Behind-the-camera diversity"
-            ]
-        },
-        {
-            "week": 14,
-            "title": "The HBCU Standard",
-            "subtitle": "Credibility",
-            "unit": "The Wrap Up",
-            "dates": {"start": "2026-04-20", "end": "2026-04-26"},
-            "topics": [
-                "What HBCUs represent",
-                "Building professional credibility",
-                "Your reputation is your brand"
-            ]
-        },
-        {
-            "week": 15,
-            "title": "Final Presentations",
-            "subtitle": "The Code Graphic",
-            "unit": "The Wrap Up",
-            "dates": {"start": "2026-04-27", "end": "2026-05-02"},
-            "assignment_due": "2026-04-17",  # Per syllabus: all work due April 17
-            "assignment_name": "The Code Graphic",
-            "topics": [
-                "Final presentations",
-                "Peer feedback",
-                "Course reflection"
+                "Media literacy skills",
+                "The HBCU Standard - Credibility",
+                "Final presentations: The Code Graphic"
             ]
         }
     ],
     
     "assignments": [
-        {
-            "name": "Ethics Check Quiz 1: Can vs. Should",
-            "type": "quiz",
-            "points": 30,
-            "due_date": "2026-01-18T23:59:00",
-            "description": "10 multiple-choice questions on Week 1 material about legal vs. ethical distinctions."
-        },
-        {
-            "name": "Ethics Check Quiz 2: The Clout Trap",
-            "type": "quiz",
-            "points": 30,
-            "due_date": "2026-01-25T23:59:00",
-            "description": "10 multiple-choice questions on Week 2 material about lying for views and clickbait culture."
-        },
+        # NOTE: Quiz 1 and Quiz 2 already exist in Canvas (graded)
+        # Starting from Quiz 3 with adjusted dates
         {
             "name": "Ethics Check Quiz 3: Privacy",
             "type": "quiz",
             "points": 30,
-            "due_date": "2026-02-01T23:59:00",
+            "due_date": "2026-02-15T23:59:00",
             "description": "10 multiple-choice questions on Week 3 material about privacy and filming in public."
         },
         {
             "name": "Ethics Check Quiz 4: The Paparazzi",
             "type": "quiz",
             "points": 30,
-            "due_date": "2026-02-08T23:59:00",
+            "due_date": "2026-02-22T23:59:00",
             "description": "10 multiple-choice questions on Week 4 paparazzi case study."
         },
         {
             "name": "Ethics Check Quiz 5: Ads & Sponsorships",
             "type": "quiz",
             "points": 30,
-            "due_date": "2026-02-15T23:59:00",
+            "due_date": "2026-03-01T23:59:00",
             "description": "10 multiple-choice questions on Week 5 material about FTC rules and disclosures."
         },
         {
             "name": "Ethics Check Quiz 6: Payola",
             "type": "quiz",
             "points": 30,
-            "due_date": "2026-02-22T23:59:00",
+            "due_date": "2026-03-08T23:59:00",
             "description": "10 multiple-choice questions on Week 6 material about pay-for-play schemes."
         },
+        # Spring Break: Mar 9-15 (no quiz)
         {
             "name": "Ethics Check Quiz 7: Cancel Culture",
             "type": "quiz",
             "points": 30,
-            "due_date": "2026-03-01T23:59:00",
+            "due_date": "2026-03-22T23:59:00",
             "description": "10 multiple-choice questions on Week 7 material about accountability vs. mob justice."
         },
         {
             "name": "The Reaction Video (Midterm)",
             "type": "assignment",
             "points": 200,
-            "due_date": "2026-03-08T23:59:00",
+            "due_date": "2026-03-29T23:59:00",
             "submission_types": ["online_upload", "media_recording"],
             "description": """## The Reaction Video (Midterm Assignment)
 
@@ -325,22 +244,22 @@ This assignment assesses your analysis skills without requiring a 5-page paper."
             "name": "Ethics Check Quiz 8: Deepfakes",
             "type": "quiz",
             "points": 30,
-            "due_date": "2026-03-22T23:59:00",
+            "due_date": "2026-04-05T23:59:00",
             "description": "10 multiple-choice questions on Week 9 material about deepfakes and verification."
         },
         {
-            "name": "Ethics Check Quiz 9: AI Art",
-            "type": "quiz",
-            "points": 30,
-            "due_date": "2026-03-29T23:59:00",
-            "description": "10 multiple-choice questions on Week 10 material about AI-generated art and ethics."
-        },
-        {
-            "name": "Ethics Check Quiz 10: The Algorithm & Fake News",
+            "name": "Ethics Check Quiz 9: AI Art & The Algorithm",
             "type": "quiz",
             "points": 30,
             "due_date": "2026-04-12T23:59:00",
-            "description": "10 multiple-choice questions covering Weeks 11-12 on algorithms and misinformation."
+            "description": "10 multiple-choice questions covering AI-generated art, algorithms, and platform responsibility."
+        },
+        {
+            "name": "Ethics Check Quiz 10: Fake News & Media Literacy",
+            "type": "quiz",
+            "points": 30,
+            "due_date": "2026-04-17T23:59:00",
+            "description": "10 multiple-choice questions on misinformation, fact-checking, and the HBCU Standard."
         },
         {
             "name": "The Code Graphic (Final Project)",
